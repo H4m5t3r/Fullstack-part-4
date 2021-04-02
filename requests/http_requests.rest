@@ -20,3 +20,6 @@ Content-Type: application/json
     "author": "TheHamster",
     "likes": 4
 }
+
+###
+DELETE http://localhost:3003/api/blogs/6066f79564c51931145532bc

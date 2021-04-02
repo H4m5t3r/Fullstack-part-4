@@ -94,6 +94,40 @@ test('error code 400 bad request if title and url are missing', async () => {
     .expect(400)
 })
 
+test('AGAIN', async () => {
+  const newBlog = {
+    _id: '5a422bc61b54a676234d17fc',
+    author: 'Robert C. Martin',
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
+describe('deletion of a blog', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(
+      helper.initialBlogs.length - 1
+    )
+
+    const titles = blogsAtEnd.map(r => r.title)
+
+    expect(titles).not.toContain(blogToDelete.title)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
