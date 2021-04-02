@@ -43,21 +43,13 @@ const initialBlogs = [
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
     __v: 0
-  },
-  {
-    _id: '5a422bc61b54a676234d17fc',
-    title: 'Type wars',
-    author: 'Robert C. Martin',
-    url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
-    likes: 2,
-    __v: 0
   }
 ]
 beforeEach(async () => {
   await Blog.deleteMany({})
-  const noteObjects = initialBlogs
+  const blogObjects = initialBlogs
     .map(blog => new Blog(blog))
-  const promiseArray = noteObjects.map(blog => blog.save())
+  const promiseArray = blogObjects.map(blog => blog.save())
   await Promise.all(promiseArray)
 })
 
@@ -79,6 +71,54 @@ test('unique identifier is named id instead of _id', async () => {
     expect(blog.id).toBeDefined()
     expect(blog._id).not.toBeDefined()
   }
+})
+
+test('adding a blog with POST works correctly', async () => {
+  const newBlog = {
+    _id: '5a422bc61b54a676234d17fc',
+    title: 'Type wars',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+    likes: 2,
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+
+  const titles = response.body.map(r => r.title)
+
+  expect(response.body).toHaveLength(initialBlogs.length + 1)
+  expect(titles).toContain(
+    'Type wars'
+  )
+})
+
+test('missing likes value defaults to 0', async () => {
+  const newBlog = {
+    _id: '5a422bc61b54a676234d17fc',
+    title: 'Type wars',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+
+  const likes = response.body.map(r => r.likes)
+
+  expect(likes[likes.length - 1]).toBe(0)
 })
 
 afterAll(() => {
