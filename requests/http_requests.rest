@@ -50,3 +50,33 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3003/api/users/60671e5e1c43a91f8a546309
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "hi",
+    "name": "EpicMadam",
+    "password": "superSecret"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "GreenTube",
+    "name": "suppamaaio",
+    "password": ""
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "GreenTube",
+    "name": "suppamaaio",
+    "password": "ja"
+}
