@@ -34,3 +34,19 @@ Content-Type: application/json
     "url": "www.vscodeguides.com",
     "likes": 7
 }
+
+###
+GET http://localhost:3003/api/users
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "alongCameZeus777",
+    "name": "Brunhilde",
+    "password": "superSecret"
+}
+
+###
+DELETE http://localhost:3003/api/users/60671e5e1c43a91f8a546309
