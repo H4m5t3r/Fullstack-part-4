@@ -11,3 +11,12 @@ Content-Type: application/json
     "url": "www.vscodeguides.com",
     "likes": 4
 }
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "author": "TheHamster",
+    "likes": 4
+}

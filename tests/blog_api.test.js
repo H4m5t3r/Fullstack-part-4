@@ -121,6 +121,19 @@ test('missing likes value defaults to 0', async () => {
   expect(likes[likes.length - 1]).toBe(0)
 })
 
+test('error code 400 bad request if title and url are missing', async () => {
+  const newBlog = {
+    _id: '5a422bc61b54a676234d17fc',
+    author: 'Robert C. Martin',
+    __v: 0
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
