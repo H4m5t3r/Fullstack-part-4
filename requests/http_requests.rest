@@ -23,3 +23,14 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3003/api/blogs/6066f79564c51931145532bc
+
+###
+PUT http://localhost:3003/api/blogs/6066e8482e7e3b20abe7d2b9
+Content-Type: application/json
+
+{
+    "title": "VS Code Guide",
+    "author": "TheHamster",
+    "url": "www.vscodeguides.com",
+    "likes": 7
+}
