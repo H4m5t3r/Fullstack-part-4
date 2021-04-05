@@ -82,6 +82,28 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "blogs": [],
+    "username": "alongCameZeus777",
+    "name": "Brunhilde",
+    "password": "superSecret"
+}
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "blogs": [],
+    "username": "hopladopla5462",
+    "name": "Harald",
+    "password": "superSecret"
+}
+
+###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
@@ -90,8 +112,11 @@ Content-Type: application/json
     "author": "TheHamster",
     "url": "www.vscodeguides.com",
     "likes": 4,
-    "userId": "606ac61027e7464d82ace818"
+    "userId": "606ada6afa67a7035428475f"
 }
 
 ###
 GET http://localhost:3003/api/blogs
+
+###
+GET http://localhost:3003/api/users

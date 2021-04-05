@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Blogs'
+      ref: 'Blog'
     }
   ],
 })
@@ -24,7 +24,6 @@ userSchema.set('toJSON', {
     delete returnedObject.__v
     // the passwordHash should not be revealed
     delete returnedObject.passwordHash
-    delete returnedObject.blogs
   }
 })
 
