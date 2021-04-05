@@ -7,8 +7,32 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.post('/', async (request, response) => {
-  const body = request.body
+blogsRouter.post('/', (request, response) => {
+  if (!request.body.title && !request.body.url) {
+    response.status(400).end()
+  } else if (!request.body.likes) {
+    const blog = new Blog({
+      ...request.body,
+      likes: 0
+    })
+    blog
+      .save()
+      .then(result => {
+        response.status(201).json(result)
+      })
+  } else {
+    const blog = new Blog(request.body)
+    blog
+      .save()
+      .then(result => {
+        response.status(201).json(result)
+      })
+  }
+  //Det jag började på under fredagen, måste refaktorera så att
+  //den använder async-systemet utan .then() och istället bara
+  //response.status(201).json(blog)
+  // const body = request.body
+
   // const user = await
 
   // const newBlog = new Blog({
@@ -19,20 +43,20 @@ blogsRouter.post('/', async (request, response) => {
   //   user: user._id
   // })
 
-  if (!body.title && !body.url) {
-    response.status(400).end()
-  } else if (!body.likes) {
-    const blog = new Blog({
-      ...body,
-      likes: 0
-    })
-    blog.save()
-    response.status(201).json(blog)
-  } else {
-    const blog = new Blog(body)
-    blog.save()
-    response.status(201).json(blog)
-  }
+  // if (!body.title && !body.url) {
+  //   response.status(400).end()
+  // } else if (!body.likes) {
+  //   const blog = new Blog({
+  //     ...body,
+  //     likes: 0
+  //   })
+  //   blog.save()
+  //   response.status(201).json(blog)
+  // } else {
+  //   const blog = new Blog(body)
+  //   blog.save()
+  //   response.status(201).json(blog)
+  // }
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
