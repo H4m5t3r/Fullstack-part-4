@@ -80,3 +80,18 @@ Content-Type: application/json
     "name": "suppamaaio",
     "password": "ja"
 }
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "VS Code Guide",
+    "author": "TheHamster",
+    "url": "www.vscodeguides.com",
+    "likes": 4,
+    "userId": "606ac61027e7464d82ace818"
+}
+
+###
+GET http://localhost:3003/api/blogs
