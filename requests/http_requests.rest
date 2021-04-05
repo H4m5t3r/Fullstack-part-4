@@ -142,7 +142,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhvcGxhZG9wbGE1NDYyIiwiaWQiOiI2MDZhZGE2Y2ZhNjdhNzAzNTQyODQ3NjAiLCJpYXQiOjE2MTc2MTc2NTN9.ziOvivPaBbQQdsT7V3tFAgSjRDGcBrYlYMsnkrk4nCI
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhvcGxhZG9wbGE1NDYyIiwiaWQiOiI2MDZhZGE2Y2ZhNjdhNzAzNTQyODQ3NjAiLCJpYXQiOjE2MTc2MjQ1NTB9.QRegLCnW46XBaQ-VtBl7OK3FO4ozzrbPbI31sbZmj4Y
 
 {
     "title": "VS Code Guide",
