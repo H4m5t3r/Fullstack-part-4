@@ -10,47 +10,55 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).json({
-      error: 'token missing or invalid'
+  try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({
+        error: 'token missing or invalid'
+      })
+    }
+    const user = request.user
+
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      user: user._id,
+      url: body.url,
+      likes: body.likes === undefined ? 0 : body.likes
     })
+
+    const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
+    response.status(201).json(savedBlog.toJSON())
+  } catch (error) {
+    next(error)
   }
-  const user = request.user
-
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    user: user._id,
-    url: body.url,
-    likes: body.likes === undefined ? 0 : body.likes
-  })
-
-  const savedBlog = await blog.save()
-  user.blogs = user.blogs.concat(savedBlog._id)
-  await user.save()
-  response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  const blog = await Blog.findById(request.params.id)
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).json({
-      error: 'Unauthorized'
-    })
-  }
-  const user = request.user
-  if (blog.user.toString() !== user.id.toString()) {
-    return response.status(401).json({
-      error: 'permission denied'
-    })
-  }
+blogsRouter.delete('/:id', async (request, response, next) => {
+  try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const blog = await Blog.findById(request.params.id)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({
+        error: 'Unauthorized'
+      })
+    }
+    const user = request.user
+    if (blog.user.toString() !== user.id.toString()) {
+      return response.status(401).json({
+        error: 'permission denied'
+      })
+    }
 
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } catch (error) {
+    next(error)
+  }
 })
 
 blogsRouter.put('/:id', (request, response, next) => {
